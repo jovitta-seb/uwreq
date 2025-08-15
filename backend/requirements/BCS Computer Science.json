@@ -506,6 +506,14 @@
       ]
     }
   ],
-  "breadth_requirement": [],
-  "depth_requirement": []
+  "breadth_requirement": {
+    "units": 3.0,
+    "description": "Humanities: 2.0 units, Social Sciences: 1.0 unit, Pure Sciences: 0.5 unit, Applied Sciences: 0.5 unit",
+    "source": "breadth.json"
+  },
+  "depth_requirement": {
+    "units": 1.5,
+    "description": "1.5 units with the same subject, including at least 0.5 unit at 300-level or higher /  1.5 units with the same subject forming a prerequisite chain of length three",
+    "source": "depth.json"
+  }
 }

@@ -2,6 +2,14 @@
 Course requirement tracker to make sure you're on track to graduate :)
 
 # Degree Requirements System
+{
+    program
+    required_courses
+    elective_requirement
+    communication_requirement
+    breadth_requirement
+    depth_requirement
+}
 
 ## Requirement Types
 
@@ -15,4 +23,4 @@ Course requirement tracker to make sure you're on track to graduate :)
 ## Notation Guide
 
 - **Course ranges**: CS340-CS398 means any CS course numbered 340 through 398
-- **Level ranges**: CS6xx means any CS course at the 600-level (CS600-CS699)
+- **Level ranges**: CS6xx/CS7xx means any CS course at the 600-level/700-level

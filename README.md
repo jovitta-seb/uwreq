@@ -1,5 +1,29 @@
-# OnTrack/GradTrack
+# OnTrack
 Course requirement tracker to make sure you're on track to graduate :)
+
+## Project Structure
+```
+uwreq/
+├── backend/
+│   └── requirements/
+│       ├── BCS computer science.json
+│       ├── breadth.json
+│       └── depth.json
+├── public/
+│   └── styles/
+│       └── main.css
+├── views/
+│   ├── layout.ejs
+│   ├── homepage.ejs
+│   ├── about.ejs
+│   ├── contact.ejs
+│   └── features.ejs
+├── .gitignore
+├── index.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
 # Degree Requirements System
 {

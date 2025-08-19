@@ -1,0 +1,26 @@
+{
+  "name": "uwreq",
+  "version": "1.0.0",
+  "description": "Course requirement tracker to make sure you're on track to graduate :)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jovitta-seb/uwreq.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jovitta-seb/uwreq/issues"
+  },
+  "homepage": "https://github.com/jovitta-seb/uwreq#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "nodemon": "^3.1.10"
+  }
+}

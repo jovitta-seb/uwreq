@@ -1,0 +1,31 @@
+<h1>Welcome to OnTrack</h1>
+<p class="lead py-3 px-4">
+  Plan your academic journey with ease. Make sure you're on track to graduate on
+  time. Choose your major and enter your courses to get started.
+</p>
+<form action="/submit" method="POST">
+  <div class="mb-3 mx-auto" style="max-width: 70%">
+    <label for="major" class="form-label">Select Your Major:</label>
+    <select class="form-select" id="major" name="major">
+      <option value="BCS Computer Science">BCS Computer Science</option>
+      <option value="BMath Computer Science">BMath Computer Science</option>
+      <option value="BBA/BCS Double Degree">BBA/BCS Double Degree</option>
+      <option value="BCS Data Science">BCS Data Science</option>
+    </select>
+    <br />
+    <label for="courses" class="form-label">Enter Your Courses:</label>
+    <textarea
+      class="form-control"
+      id="courses"
+      name="courses"
+      rows="3"
+      placeholder="Enter your comma-seperated courses here (ex: CS135, MATH137, etc)"
+    ></textarea>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-lg btn-light fw-bold border-white bg-white"
+  >
+    Submit
+  </button>
+</form>

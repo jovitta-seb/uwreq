@@ -5,6 +5,10 @@ Course requirement tracker to make sure you're on track to graduate :)
 ```
 uwreq/
 ├── backend/
+│   ├── course-data/
+│   │   ├── course_offerings.csv
+│   │   ├── courses.json
+│   │   └── csv_to_json.js
 │   └── requirements/
 │       ├── BCS computer science.json
 │       ├── breadth.json
@@ -23,16 +27,31 @@ uwreq/
 ├── package.json
 ├── package-lock.json
 └── README.md
+
 ```
 
+# Quickstart
+git clone https://github.com/jovitta-seb/uwreq
+cd ontrack/uwreq
+npm install
+node index.js
+
+# Data Handling
+This project uses open, public course data from the University of Waterloo's undergraduate calender
+(https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses)
+
+If the calender is updated, make necessary changes to the csv and regenerate json by running csv-to-json.js
+
 # Degree Requirements System
+Each program is represented as an object containing:
+
 {
-    program
-    required_courses
-    elective_requirement
-    communication_requirement
-    breadth_requirement
-    depth_requirement
+    program: "...",
+    required_courses: [],
+    elective_requirement: [],
+    communication_requirement: [],
+    breadth_requirement: {},
+    depth_requirement: {}
 }
 
 ## Requirement Types

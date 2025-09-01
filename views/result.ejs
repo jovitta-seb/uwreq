@@ -198,7 +198,7 @@
                   Taken: <%= req.courses_taken.map(c => c.code).join(", ") || "None" %><br />
                   <% if (req.type === 'range_required' || req.type === 'one_group_required') { %>
                     Options available: <%= req.courses_remaining.map(c => c.code).join(", ") || "None" %>
-                  <% } else { %>
+                  <% } else if (req.type !== 'one_required' && req.type !== 'all_required') { %>
                     Remaining: <%= req.courses_remaining.map(c => c.code).join(", ") || "None" %>
                   <% } %>
                 </div>
@@ -226,7 +226,7 @@
                 <strong><%= list.description %></strong>
                 <div class="meta">
                   Taken: <%= list.courses_taken.map(c => c.code).join(", ") || "None" %><br />
-                  Courses: <%= list.courses_remaining.map(c => c.code).join(", ") || "None" %>
+                  Options available: <%= list.courses_remaining.map(c => c.code).join(", ") || "None" %>
                 </div>
               </div>
             <% }) %>

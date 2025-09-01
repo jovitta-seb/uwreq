@@ -5,19 +5,19 @@
       "type": "all_required",
       "courses": [
         {
-          "course_code": "CS136L",
+          "code": "CS136L",
           "title": "Tools and Techniques for Software Development",
           "credits": 0.25
         },
         {
-          "course_code": "CS341",
+          "code": "CS341",
           "title": "Algorithms",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS350",
+          "code": "CS350",
           "title": "Operating Systems",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -25,19 +25,19 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS115",
+          "code": "CS115",
           "title": "Introduction to Computer Science 1",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS135",
+          "code": "CS135",
           "title": "Designing Functional Programs",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS145",
+          "code": "CS145",
           "title": "Designing Functional Programs (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -45,14 +45,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS136",
+          "code": "CS136",
           "title": "Elementary Algorithm Design and Data Abstraction",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS146",
+          "code": "CS146",
           "title": "Elementary Algorithm Design and Data Abstraction (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -60,14 +60,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS240",
+          "code": "CS240",
           "title": "Data Structures and Data Management",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS240E",
+          "code": "CS240E",
           "title": "Data Structures and Data Management (Enriched)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -75,14 +75,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS241",
+          "code": "CS241",
           "title": "Foundations of Sequential Programs",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS241E",
+          "code": "CS241E",
           "title": "Foundations of Sequential Programs (Enriched)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -90,14 +90,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS245",
+          "code": "CS245",
           "title": "Logic and Computation",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS245E",
+          "code": "CS245E",
           "title": "Logic and Computation (Enriched)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -105,14 +105,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS246",
+          "code": "CS246",
           "title": "Object-Oriented Software Development",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS246E",
+          "code": "CS246E",
           "title": "Object-Oriented Software Development (Enriched)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -120,14 +120,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "CS251",
+          "code": "CS251",
           "title": "Computer Organization and Design",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "CS251E",
+          "code": "CS251E",
           "title": "Computer Organization and Design (Enriched)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -135,19 +135,19 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "MATH127",
+          "code": "MATH127",
           "title": "Calculus 1 for the Sciences",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH137",
+          "code": "MATH137",
           "title": "Calculus 1 for Honours Mathematics",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH147",
+          "code": "MATH147",
           "title": "Calculus 1 (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -155,19 +155,19 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "MATH128",
+          "code": "MATH128",
           "title": "Calculus 2 for the Sciences",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH138",
+          "code": "MATH138",
           "title": "Calculus 2 for Honours Mathematics",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH148",
+          "code": "MATH148",
           "title": "Calculus 2 (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -175,14 +175,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "MATH135",
+          "code": "MATH135",
           "title": "Algebra for Honours Mathematics",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH145",
+          "code": "MATH145",
           "title": "Algebra (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -190,14 +190,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "MATH136",
+          "code": "MATH136",
           "title": "Linear Algebra 1 for Honours Mathematics",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH146",
+          "code": "MATH146",
           "title": "Linear Algebra 1 (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -205,14 +205,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "MATH239",
+          "code": "MATH239",
           "title": "Introduction to Combinatorics",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "MATH249",
+          "code": "MATH249",
           "title": "Introduction to Combinatorics (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -220,14 +220,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "STAT230",
+          "code": "STAT230",
           "title": "Probability",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "STAT240",
+          "code": "STAT240",
           "title": "Probability (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     },
@@ -235,14 +235,14 @@
       "type": "one_required",
       "courses": [
         {
-          "course_code": "STAT231",
+          "code": "STAT231",
           "title": "Statistics",
-          "credits": 0.50
+          "credits": 0.5
         },
         {
-          "course_code": "STAT241",
+          "code": "STAT241",
           "title": "Statistics (Advanced Level)",
-          "credits": 0.50
+          "credits": 0.5
         }
       ]
     }
@@ -252,13 +252,13 @@
       "type": "range_required",
       "count": 3,
       "range": ["CS340-CS398", "CS440-CS489"],
-      "description": "3 additional CS courses chosen from CS340-CS398, CS440-CS489"
+      "description": "Complete 3 additional CS courses chosen from CS340-CS398, CS440-CS489"
     },
     {
-      "type": "range_required", 
+      "type": "range_required",
       "count": 2,
-      "range": "CS440-CS489",
-      "description": "2 additional CS courses chosen from CS440-CS489"
+      "range": ["CS440-CS489"],
+      "description": "Complete 2 additional CS courses chosen from CS440-CS489"
     },
     {
       "type": "one_group_required",
@@ -266,249 +266,160 @@
         {
           "type": "range_required",
           "count": 1,
-          "ranges": "CS440-CS498",
-          "level_ranges": ["CS6xx", "CS7xx"],
-          "description": "1 course from CS440-CS498, or any CS course at the 600- or 700-level",
-          "constraints": ["See Additional Constraints for 600/700 level courses"]
+          "range": ["CS440-CS498"],
+          "level_ranges": ["CS6", "CS7"],
+          "description": "Complete 1 course from CS440-CS498, or any CS course at the 600- or 700-level",
+          "constraints": [
+            "See Additional Constraints for 600/700 level courses"
+          ]
         },
         {
           "type": "one_required",
           "courses": [
             {
-              "course_code": "CO487",
+              "code": "CO487",
               "title": "Applied Cryptography",
-              "credits": 0.50
+              "credits": 0.5
             },
             {
-              "course_code": "CS499T", 
+              "code": "CS499T",
               "title": "Honours Thesis",
-              "credits": 0.50
+              "credits": 0.5
             },
             {
-              "course_code": "STAT440",
+              "code": "STAT440",
               "title": "Computational Inference",
-              "credits": 0.50
+              "credits": 0.5
             }
           ]
         }
       ]
     }
   ],
-  "communication_requirement": [
-    {
-      "type": "one_group_required",
-      "description": "Complete one of the following communication options",
-      "groups": [
+  "communication_requirement": {
+    "list1": {
+      "description": "List 1",
+      "courses": [
         {
-          "type": "list1_required",
-          "description": "Complete two courses from List 1",
-          "courses": [
-            {
-              "course_code": "COMMST100",
-              "title": "Interpersonal Communication",
-              "credits": 0.50
-            },
-            {
-              "course_code": "COMMST223",
-              "title": "Public Speaking",
-              "credits": 0.50
-            },
-            {
-              "course_code": "EMLS101R",
-              "title": "Oral Communications for Academic Purposes",
-              "credits": 0.50
-            },
-            {
-              "course_code": "EMLS102R",
-              "title": "Clear Communication in English Writing",
-              "credits": 0.50
-            },
-            {
-              "course_code": "EMLS129R",
-              "title": "Written Academic English",
-              "credits": 0.50
-            },
-            {
-              "course_code": "ENGL109",
-              "title": "Introduction to Academic Writing",
-              "credits": 0.50
-            },
-            {
-              "course_code": "ENGL129R",
-              "title": "Written Academic English",
-              "credits": 0.50
-            }
-          ]
+          "code": "COMMST100",
+          "title": "Interpersonal Communication",
+          "credits": 0.5
+        },
+        { "code": "COMMST223", "title": "Public Speaking", "credits": 0.5 },
+        {
+          "code": "EMLS101R",
+          "title": "Oral Communications for Academic Purposes",
+          "credits": 0.5
         },
         {
-        "type": "list1+list2_required",
-          "description": "Complete one course from List 1 and one course from List 2",
-          "requirements": [
-            {
-              "type": "one_required",
-              "source": "list_1",
-              "courses": [
-                {
-                  "course_code": "COMMST100",
-                  "title": "Interpersonal Communication",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "COMMST223",
-                  "title": "Public Speaking",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS101R",
-                  "title": "Oral Communications for Academic Purposes",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS102R",
-                  "title": "Clear Communication in English Writing",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS129R",
-                  "title": "Written Academic English",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL109",
-                  "title": "Introduction to Academic Writing",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL129R",
-                  "title": "Written Academic English",
-                  "credits": 0.50
-                }
-              ]
-            },
-            {
-              "type": "one_required",
-              "source": "list_2",
-              "courses": [
-                {
-                  "course_code": "COMMST100",
-                  "title": "Interpersonal Communication",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "COMMST223",
-                  "title": "Public Speaking",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS101R",
-                  "title": "Oral Communications for Academic Purposes",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS102R",
-                  "title": "Clear Communication in English Writing",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS129R",
-                  "title": "Written Academic English",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL109",
-                  "title": "Introduction to Academic Writing",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL129R",
-                  "title": "Written Academic English",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "COMMST225",
-                  "title": "Interviewing",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "COMMST227",
-                  "title": "Leadership",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "COMMST228",
-                  "title": "Public Communication",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS103R",
-                  "title": "Effective English Pronunciation",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS104R",
-                  "title": "Reading and Listening for Academic Purposes",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "EMLS110R",
-                  "title": "Communicating in Canadian Academic Contexts",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL101B",
-                  "title": "Introduction to Rhetorical Studies",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL108B",
-                  "title": "Global English Literatures",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL108D",
-                  "title": "Digital Lives",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL119",
-                  "title": "Communications in Mathematics and Computer Science",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL208B",
-                  "title": "Science Fiction",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL209",
-                  "title": "Advanced Academic Writing",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL210E",
-                  "title": "Genres of Technical Communication",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL210F",
-                  "title": "Genres of Business Communication",
-                  "credits": 0.50
-                },
-                {
-                  "course_code": "ENGL378",
-                  "title": "Professional Communications in Statistics and Actuarial Science",
-                  "credits": 0.50
-                }
-              ]
-            }
-          ]
+          "code": "EMLS102R",
+          "title": "Clear Communication in English Writing",
+          "credits": 0.5
+        },
+        {
+          "code": "EMLS129R",
+          "title": "Written Academic English",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL109",
+          "title": "Introduction to Academic Writing",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL129R",
+          "title": "Written Academic English",
+          "credits": 0.5
         }
       ]
-    }
-  ],
+    },
+    "list2": {
+      "description": "List 2",
+      "courses": [
+        { "code": "COMMST225", "title": "Interviewing", "credits": 0.5 },
+        { "code": "COMMST227", "title": "Leadership", "credits": 0.5 },
+        {
+          "code": "COMMST228",
+          "title": "Public Communication",
+          "credits": 0.5
+        },
+        {
+          "code": "EMLS103R",
+          "title": "Effective English Pronunciation",
+          "credits": 0.5
+        },
+        {
+          "code": "EMLS104R",
+          "title": "Reading and Listening for Academic Purposes",
+          "credits": 0.5
+        },
+        {
+          "code": "EMLS110R",
+          "title": "Communicating in Canadian Academic Contexts",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL101B",
+          "title": "Introduction to Rhetorical Studies",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL108B",
+          "title": "Global English Literatures",
+          "credits": 0.5
+        },
+        { "code": "ENGL108D", "title": "Digital Lives", "credits": 0.5 },
+        {
+          "code": "ENGL119",
+          "title": "Communications in Mathematics and Computer Science",
+          "credits": 0.5
+        },
+        { "code": "ENGL208B", "title": "Science Fiction", "credits": 0.5 },
+        {
+          "code": "ENGL209",
+          "title": "Advanced Academic Writing",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL210E",
+          "title": "Genres of Technical Communication",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL210F",
+          "title": "Genres of Business Communication",
+          "credits": 0.5
+        },
+        {
+          "code": "ENGL378",
+          "title": "Professional Communications in Statistics and Actuarial Science",
+          "credits": 0.5
+        }
+      ]
+    },
+    "options": [
+      {
+        "description": "Option 1: Two from List 1",
+        "requires": [{ "list": "list1", "count": 2 }]
+      },
+      {
+        "description": "Option 2: One from List 1 and one from List 2",
+        "requires": [
+          { "list": "list1", "count": 1 },
+          { "list": "list2", "count": 1 }
+        ]
+      }
+    ]
+  },
   "breadth_requirement": {
     "units": 3.0,
     "description": "Humanities: 2.0 units, Social Sciences: 1.0 unit, Pure Sciences: 0.5 unit, Applied Sciences: 0.5 unit",
+    "required_units": {
+      "humanities": 2.0,
+      "social_sciences": 1.0,
+      "pure_sciences": 0.5,
+      "applied_sciences": 0.5
+    },
     "source": "breadth.json"
   },
   "depth_requirement": {

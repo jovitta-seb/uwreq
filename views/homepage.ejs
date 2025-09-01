@@ -1,3 +1,7 @@
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
 <h1>Welcome to OnTrack</h1>
 <p class="lead py-3 px-4">
   Plan your academic journey with ease. Make sure you're on track to graduate on
@@ -19,7 +23,7 @@
       id="courses"
       name="courses"
       rows="3"
-      placeholder="Enter your comma-seperated courses here (ex: CS135, MATH137, etc)"
+      placeholder="Enter your comma-seperated courses here (ex: CS135, MATH137, CS136L etc)"
     ></textarea>
   </div>
   <button

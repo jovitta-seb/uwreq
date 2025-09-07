@@ -10,7 +10,8 @@ uwreq/
 │   │   ├── courses.json
 │   │   └── csv_to_json.js
 │   └── requirements/
-│       ├── BCS computer science.json
+│       ├── BCS Computer Science.json
+│       ├── BMath Computer Science.json
 │       ├── breadth.json
 │       └── depth.json
 ├── public/
@@ -50,8 +51,10 @@ Each program is represented as an object containing:
 
 {
     program: "...",
+    // excluded_courses: [], // optional — courses that cannot be counted towards the degree
     required_courses: [],
     elective_requirement: [],
+    additional_requirement: [], // optional — degree specific
     communication_requirement: {},
     breadth_requirement: {},
     depth_requirement: {}
@@ -69,3 +72,4 @@ Each program is represented as an object containing:
 
 - **Course ranges**: CS340-CS398 means any CS course numbered 340 through 398
 - **Level ranges**: CS6/CS7 means any CS course at the 600-level/700-level
+- **Category ranges**: Any course in a specific category (ex: ACTSC, STAT, etc)

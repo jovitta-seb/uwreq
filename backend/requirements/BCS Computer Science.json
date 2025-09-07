@@ -413,9 +413,9 @@
   },
   "breadth_requirement": {
     "units": 3.0,
-    "description": "Humanities: 2.0 units, Social Sciences: 1.0 unit, Pure Sciences: 0.5 unit, Applied Sciences: 0.5 unit",
+    "description": "Humanities: 1.0 units, Social Sciences: 1.0 unit, Pure Sciences: 0.5 unit, Applied Sciences: 0.5 unit",
     "required_units": {
-      "humanities": 2.0,
+      "humanities": 1.0,
       "social_sciences": 1.0,
       "pure_sciences": 0.5,
       "applied_sciences": 0.5

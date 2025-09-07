@@ -19,7 +19,13 @@ function checkExists(userCourses) {
   return userCourses.every((code) => allCodes.includes(code.toUpperCase()));
 }
 
-function checkRange(requirement) {
+function subjectMatch(code, sub) {
+  const u = code.toUpperCase();
+  const s = sub.toUpperCase();
+  return u.startsWith(s) && /\d/.test(u.charAt(s.length));
+}
+
+function checkRange(requirement, excludedCourses) {
   let valid_courses = [];
 
   // Handle explicit numeric ranges
@@ -56,11 +62,20 @@ function checkRange(requirement) {
     });
   }
 
-  // Deduplicate
+  // Category subject prefixes like "ACTSC" OR "CO"
+  if (Array.isArray(requirement.category_ranges)) {
+    requirement.category_ranges.forEach((item) => {
+      const matches = courseData.filter((c) => subjectMatch(c.code, item));
+      valid_courses.push(...matches);
+    });
+  }
+
+  // Deduplicate AND filter out excluded codes
   const seen = new Set();
   valid_courses = valid_courses.filter((c) => {
-    if (seen.has(c.code)) return false;
-    seen.add(c.code);
+    const code = c.code.toUpperCase();
+    if (seen.has(code) || excludedCourses.includes(code)) return false;
+    seen.add(code);
     return true;
   });
 
@@ -100,14 +115,17 @@ function checkCommunicationReq(requirement, userCourses) {
 function createDescription(requirement) {
   if (requirement.type === "one_group_required") {
     // Use the parent description if it exists
-    let desc = requirement.description || "Complete one of the following options";
+    let desc =
+      requirement.description || "Complete one of the following options";
 
     // Append each group's description or generated description
     if (Array.isArray(requirement.groups)) {
       const groupDescs = requirement.groups
         .map((group) => {
           // Try the group's own description, or fall back to createDescription for that group
-          return group.description || createDescription(group) || "";}).filter(Boolean);
+          return group.description || createDescription(group) || "";
+        })
+        .filter(Boolean);
       if (groupDescs.length) {
         desc = groupDescs.join(" or ");
       }
@@ -131,7 +149,7 @@ function createDescription(requirement) {
   }
 }
 
-function checkReq(value, userCourses) {
+function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
   return value.map((requirement) => {
     const type = requirement.type;
     let description = "";
@@ -152,22 +170,29 @@ function checkReq(value, userCourses) {
     } else {
       description = createDescription(requirement);
     }
-    let valid_courses = [];
 
+    let valid_courses = [];
     if (type === "range_required") {
-      valid_courses = checkRange(requirement);
+      valid_courses = checkRange(requirement, excludedCourses);
     } else if (Array.isArray(requirement.courses)) {
-      valid_courses = requirement.courses;
+      valid_courses = requirement.courses.filter(
+        (c) => !excludedCourses.includes(c.code.toUpperCase())
+      );
     } else {
       valid_courses = [];
     }
 
-    const taken = valid_courses.filter((c) =>
-      userCourses.includes(c.code.toUpperCase())
+    const taken = valid_courses.filter(
+      (c) =>
+        userCourses.includes(c.code.toUpperCase()) &&
+        !all_courses_taken.includes(c.code.toUpperCase())
     );
     const remaining = valid_courses.filter(
       (c) => !userCourses.includes(c.code.toUpperCase())
     );
+
+    // Push just the code string into all_courses_taken
+    taken.forEach((item) => all_courses_taken.push(item.code.toUpperCase()));
 
     let met = false;
     switch (type) {
@@ -183,7 +208,7 @@ function checkReq(value, userCourses) {
       case "one_group_required": {
         // Evaluate each group
         const groupResults = requirement.groups.map((group) =>
-          checkReq([group], userCourses)
+          checkReq([group], userCourses, all_courses_taken, excludedCourses)
         );
 
         // Flatten the results
@@ -218,16 +243,6 @@ function checkReq(value, userCourses) {
           met,
         };
       }
-      case "list1_required":
-        met = taken.length >= 2;
-        break;
-      case "list1+list2_required":
-        const l1 = requirement.requirements[0];
-        const l2 = requirement.requirements[1];
-        met =
-          checkReq([l1], userCourses)[0].met &&
-          checkReq([l2], userCourses)[0].met;
-        break;
     }
     if (type === "range_required") {
       return {
@@ -235,7 +250,7 @@ function checkReq(value, userCourses) {
         type,
         courses_taken: taken,
         courses_remaining: remaining,
-        met,
+        met
       };
     }
     return {
@@ -243,7 +258,7 @@ function checkReq(value, userCourses) {
       type,
       courses_taken: taken,
       courses_remaining: remaining,
-      met,
+      met
     };
   });
 }
@@ -264,16 +279,30 @@ function checkMajorProgress(major, userCourses) {
   );
   const majorData = JSON.parse(fs.readFileSync(majorPath, "utf-8")); // Stored major requirements data
 
+  const excludedCourses = (majorData.excluded_courses || []).map((c) =>
+    c.code.toUpperCase()
+  );
+
   const result = {
     program: major,
   };
+  let all_courses_taken = [];
 
   // majorProgress calculation
   Object.entries(majorData).forEach((entry) => {
     const key = entry[0];
     const value = entry[1];
-    if (key === "required_courses" || key === "elective_requirement") {
-      result[key] = checkReq(value, userCourses);
+    if (
+      key === "required_courses" ||
+      key === "elective_requirement" ||
+      key === "additional_requirement"
+    ) {
+      result[key] = checkReq(
+        value,
+        userCourses,
+        all_courses_taken,
+        excludedCourses
+      );
     } else if (key === "communication_requirement") {
       result[key] = checkCommunicationReq(value, userCourses);
     } else if (key === "breadth_requirement") {

@@ -146,6 +146,8 @@ function createDescription(requirement) {
     return "Complete all of " + courseCodes;
   } else if (requirement.type === "one_required") {
     return "Complete one of " + courseCodes;
+  } else if (requirement.type === "n_required") {
+    return `Complete ${requirement.count} of ` + courseCodes;
   }
 }
 
@@ -205,6 +207,9 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
       case "range_required":
         met = taken.length >= requirement.count;
         break;
+      case "n_required":
+        met = taken.length >= requirement.count;
+        break;
       case "one_group_required": {
         // Evaluate each group
         const groupResults = requirement.groups.map((group) =>
@@ -250,7 +255,7 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
         type,
         courses_taken: taken,
         courses_remaining: remaining,
-        met
+        met,
       };
     }
     return {
@@ -258,7 +263,7 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
       type,
       courses_taken: taken,
       courses_remaining: remaining,
-      met
+      met,
     };
   });
 }

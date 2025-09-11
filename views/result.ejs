@@ -198,10 +198,8 @@
                 </span>
                 <div class="meta">
                   Taken: <%= req.courses_taken.map(c => c.code).join(", ") || "None" %><br />
-                  <% if (req.type === 'range_required' || req.type === 'one_group_required') { %>
-                    Options available: <%= req.courses_remaining.map(c => c.code).join(", ") || "None" %>
-                  <% } else if (req.type !== 'one_required' && req.type !== 'all_required') { %>
-                    Remaining: <%= req.courses_remaining.map(c => c.code).join(", ") || "None" %>
+                  <% if (req.type !== 'one_required' && req.type !== 'all_required') { %>
+                    Options: <%= req.courses_remaining.map(c => c.code).join(", ") || "None" %>
                   <% } %>
                 </div>
               </div>

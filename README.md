@@ -11,6 +11,7 @@ uwreq/
 │   │   └── csv_to_json.js
 │   └── requirements/
 │       ├── BCS Computer Science.json
+│       ├── BCS Data Science.json
 │       ├── BMath Computer Science.json
 │       ├── breadth.json
 │       └── depth.json
@@ -64,6 +65,7 @@ Each program is represented as an object containing:
 
 - **all_required**: All listed courses must be completed
 - **one_required**: Any one of the listed courses must be completed
+- **n_required**: Given count of listed courses must be completed
 - **range_required**: Complete the specified number of courses from a course range (e.g., CS340-CS398) and/or level range (e.g., CS6, CS7)
 - **one_group_required**: Atleast one of the nested groups must be satisfied
 

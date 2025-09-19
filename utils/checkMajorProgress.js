@@ -274,7 +274,53 @@ function checkBreadthReq(sourcePath, userCourses) {
 
 function checkDepthReq(sourcePath, userCourses) {
   const sourceData = JSON.parse(fs.readFileSync(sourcePath, "utf-8"));
+
+  // Normalize course codes
+  const normalized = userCourses.map((c) => c.toUpperCase());
+
+  // Group courses by subject prefix (ECON, PHYS, PSYCH, etc.)
+  const groups = {};
+  normalized.forEach((code) => {
+    const subject = code.match(/^[A-Z]+/)[0]; // letters before numbers
+    if (!groups[subject]) groups[subject] = [];
+    groups[subject].push(code);
+  });
+
+  // Helper: check if any group satisfies Option 1
+  function satisfiesOption1() {
+    return Object.entries(groups).some(([subject, courses]) => {
+      if (courses.length < 3) return false;
+      const has300plus = courses.some((c) => {
+        const num = parseInt(c.match(/\d+/)[0], 10);
+        return num >= 300;
+      });
+      return has300plus;
+    });
+  }
+
+  // Helper: check if any group satisfies Option 2 (prereq chain length 3)
+  // Note: prereq validation would require a course graph; for now we just check "at least 3 sequential codes"
+  function satisfiesOption2() {
+    return Object.entries(groups).some(([subject, courses]) => {
+      if (courses.length < 3) return false;
+      // sort by number
+      const nums = courses.map((c) => parseInt(c.match(/\d+/)[0], 10)).sort((a,b) => a-b);
+      // check if any 3 form an increasing sequence (approximation of prereq chain)
+      for (let i = 0; i < nums.length - 2; i++) {
+        if (nums[i+1] > nums[i] && nums[i+2] > nums[i+1]) return true;
+      }
+      return false;
+    });
+  }
+
+  return {
+    description: sourceData.options.map((o) => o.description).join(" OR "),
+    option1_met: satisfiesOption1(),
+    option2_met: satisfiesOption2(),
+    examples: sourceData.examples
+  };
 }
+
 
 function checkMajorProgress(major, userCourses) {
   const majorPath = path.join(

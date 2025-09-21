@@ -242,9 +242,105 @@
             <% }) %>
           </div>
         </div>
+      <% } else if (section === "breadth_requirement") { %>
+  <!-- Breadth Requirement -->
+  <div class="results-section mb-3">
+    <button
+      class="btn btn-outline-light w-100 text-start"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#section-<%= idx %>"
+      aria-expanded="false"
+      aria-controls="section-<%= idx %>">
+      Breadth Requirement
+    </button>
+
+    <div class="collapse" id="section-<%= idx %>">
+      <!-- Status at the top -->
+      <div class="requirement-item">
+        <strong>Status:</strong>
+        <span class="badge <%= requirements.satisfied ? 'met' : 'not-met' %> ms-2">
+          <%= requirements.satisfied ? "Met" : "Not Met" %>
+        </span>
+      </div>
+
+      <!-- Rewritten description -->
+      <div class="meta mb-3">
+        <p>The <strong>Breadth Requirement</strong> ensures coverage across four areas:</p>
+        <ul>
+          <li>Humanities — <%= requirements.categories.humanities.met ? "Met" : "In Progress" %> (<%= requirements.categories.humanities.taken.length %>/<%= requirements.categories.humanities.needed %>)</li>
+          <li>Social Sciences — <%= requirements.categories.social_sciences.met ? "Met" : "In Progress" %> (<%= requirements.categories.social_sciences.taken.length %>/<%= requirements.categories.social_sciences.needed %>)</li>
+          <li>Pure Sciences — <%= requirements.categories.pure_sciences.met ? "Met" : "In Progress" %> (<%= requirements.categories.pure_sciences.taken.length %>/<%= requirements.categories.pure_sciences.needed %>)</li>
+          <li>Applied Sciences — <%= requirements.categories.applied_sciences.met ? "Met" : "In Progress" %> (<%= requirements.categories.applied_sciences.taken.length %>/<%= requirements.categories.applied_sciences.needed %>)</li>
+        </ul>
+      </div>
+
+      <!-- Individual category breakdowns -->
+      <% Object.entries(requirements.categories).forEach(([cat, info]) => { %>
+        <div class="requirement-item">
+          <strong><%= cat.charAt(0).toUpperCase() + cat.slice(1).replace("_", " ") %></strong>
+          <span class="badge <%= info.met ? 'met' : 'not-met' %> ms-2">
+            <%= info.met ? "Met" : "Not Met" %>
+          </span>
+          <div class="meta">
+            Progress: <%= info.taken.length %>/<%= info.needed %><br/>
+            Remaining: <%= info.remaining %><br/>
+            Taken: <%= info.taken.join(", ") || "None" %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+  
+<% } else if (section === "depth_requirement") { %>
+  <!-- Depth Requirement -->
+  <div class="results-section mb-3">
+    <button
+      class="btn btn-outline-light w-100 text-start"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#section-<%= idx %>"
+      aria-expanded="false"
+      aria-controls="section-<%= idx %>">
+      Depth Requirement
+    </button>
+
+    <div class="collapse" id="section-<%= idx %>">
+      <div class="meta mb-3">
+        <p>The <strong>Depth Requirement</strong> can be met in two ways:</p>
+        <ul>
+          <li>
+            <strong>3 courses (1.5 units)</strong> from the same subject, 
+            with at least one of them (0.5 units) at the third-year level or higher
+          </li>
+          <li>
+            <strong>OR</strong> 3 courses (1.5 units) with the same subject 
+            forming a prerequisite chain of length three.
+          </li>
+        </ul>
+      </div>
+
+      <div class="requirement-item">
+        <strong>Status:</strong>
+        <span class="badge <%= requirements.satisfied ? 'met' : 'not-met' %> ms-2">
+          <%= requirements.satisfied ? "Met" : "Not Met" %>
+        </span>
+      </div>
+
+      <% if (requirements.satisfied) { %>
+        <p><strong>Subject:</strong> <%= requirements.subject %></p>
+        <p><strong>Chain:</strong> <%= (requirements.chain || []).slice().reverse().join(" → ") %></p>
+      <% } else { %>
+        <p><%= requirements.note %></p>
       <% } %>
+    </div>
+  </div>
+<% } %>
+
+
 
     <% }) %>
+
   </div>
 </main>
 

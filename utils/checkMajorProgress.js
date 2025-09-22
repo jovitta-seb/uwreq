@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { checkDepth } from "../scripts/utils/checkDepth.js";
+import { checkBreadth } from "../scripts/utils/checkBreadth.js"; // NEW
 
 // Local __dirname for this utils file
 const __filename = fileURLToPath(import.meta.url);
@@ -14,17 +16,20 @@ const courseData = JSON.parse(
 );
 const courseCodeData = courseData.map((c) => c.code);
 
+// check if all user courses exist in course data
 function checkExists(userCourses) {
   const allCodes = courseCodeData.map((c) => c.toUpperCase());
   return userCourses.every((code) => allCodes.includes(code.toUpperCase()));
 }
 
+// match course code to subject prefix
 function subjectMatch(code, sub) {
   const u = code.toUpperCase();
   const s = sub.toUpperCase();
   return u.startsWith(s) && /\d/.test(u.charAt(s.length));
 }
 
+// validate course ranges and return valid courses
 function checkRange(requirement, excludedCourses) {
   let valid_courses = [];
 
@@ -82,6 +87,7 @@ function checkRange(requirement, excludedCourses) {
   return valid_courses;
 }
 
+// check communication requirement
 function checkCommunicationReq(requirement, userCourses) {
   const listResults = {};
   Object.entries(requirement).forEach((list) => {
@@ -112,6 +118,7 @@ function checkCommunicationReq(requirement, userCourses) {
   return { lists: listResults, options: optionResults };
 }
 
+// generate descriptions for requirements
 function createDescription(requirement) {
   if (requirement.type === "one_group_required") {
     // Use the parent description if it exists
@@ -121,10 +128,7 @@ function createDescription(requirement) {
     // Append each group's description or generated description
     if (Array.isArray(requirement.groups)) {
       const groupDescs = requirement.groups
-        .map((group) => {
-          // Try the group's own description, or fall back to createDescription for that group
-          return group.description || createDescription(group) || "";
-        })
+        .map((group) => group.description || createDescription(group) || "")
         .filter(Boolean);
       if (groupDescs.length) {
         desc = groupDescs.join(" or ");
@@ -151,6 +155,7 @@ function createDescription(requirement) {
   }
 }
 
+// check requirement satisfaction
 function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
   return value.map((requirement) => {
     const type = requirement.type;
@@ -268,15 +273,51 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
   });
 }
 
-function checkBreadthReq(sourcePath, userCourses) {
-  const sourceData = JSON.parse(fs.readFileSync(sourcePath, "utf-8"));
+// breadth requirement check (delegates to checkBreadth.js)
+function checkBreadthReq(sourcePath, userCourses, { debug = false } = {}) {
+  // Just call checkBreadth directly
+  const result = checkBreadth(userCourses, { debug });
+
+  return {
+    satisfied: result.ok,
+    description: result.description,
+    categories: result.categories,
+    note:
+      "Overlap is only allowed between Pure and Applied Sciences. Comm List I exclusions are not counted.",
+  };
 }
 
-function checkDepthReq(sourcePath, userCourses) {
+
+
+
+// depth requirement check (patched with debug + exclusion note)
+function checkDepthReq(sourcePath, userCourses, { debug = false } = {}) {
   const sourceData = JSON.parse(fs.readFileSync(sourcePath, "utf-8"));
+  const result = checkDepth(userCourses, { debug });
+
+  if (!result.ok) {
+    return {
+      description: sourceData.options.map((o) => o.description).join(" OR "),
+      satisfied: false,
+      note:
+        "Depth not satisfied. Either insufficient courses/chain length, or all selected courses are in excluded subjects (e.g., CS, MATH, STAT, etc.).",
+      examples: sourceData.examples,
+    };
+  }
+
+  return {
+    description: sourceData.options.map((o) => o.description).join(" OR "),
+    satisfied: true,
+    option_met: result.option || null,
+    subject: result.subject || null,
+    chain: result.chain || null,
+    courses_used: result.courses || null,
+    examples: sourceData.examples,
+  };
 }
 
-function checkMajorProgress(major, userCourses) {
+// main driver for major progress check
+function checkMajorProgress(major, userCourses, { debug = false } = {}) {
   const majorPath = path.join(
     __dirname,
     "../backend/requirements",
@@ -294,9 +335,7 @@ function checkMajorProgress(major, userCourses) {
   let all_courses_taken = [];
 
   // majorProgress calculation
-  Object.entries(majorData).forEach((entry) => {
-    const key = entry[0];
-    const value = entry[1];
+  Object.entries(majorData).forEach(([key, value]) => {
     if (
       key === "required_courses" ||
       key === "elective_requirement" ||
@@ -316,14 +355,14 @@ function checkMajorProgress(major, userCourses) {
         "../backend/requirements",
         value.source
       ); // Stored breadth requirements data
-      result[key] = checkBreadthReq(breadthPath, userCourses);
+      result[key] = checkBreadthReq(breadthPath, userCourses, { debug });
     } else if (key === "depth_requirement") {
       const depthPath = path.join(
         __dirname,
         "../backend/requirements",
         value.source
       ); // Stored depth requirements data
-      result[key] = checkDepthReq(depthPath, userCourses);
+      result[key] = checkDepthReq(depthPath, userCourses, { debug });
     }
   });
 

@@ -74,6 +74,7 @@ app.post("/submit", (req, res) => {
     });
   }
   const progress = checkMajorProgress(major, userCourses);
+  console.log(progress);
   res.render("result.ejs", {
     title: "Results",
     program: progress.program,

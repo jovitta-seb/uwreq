@@ -1,22 +1,24 @@
 {
     "humanities": [
-      "APPLS", "ARABIC", "ARBUS", "ARTS", "ASL", "CHINA", "CLAS", 
-      "CMW", "CROAT", "DAC", "DUTCH", "ENGL", "FINE", "FR", "GER", 
-      "GRK", "HIST", "ITAL", "ITALST", "JAPAN", "JS", "KOREA", 
-      "LAT", "MEDVL", "MOHAWK", "MUSIC", "PORT", "RS", "RUSS", 
-      "SI", "SPAN", "THPERF", "VCULT"
+      "ASL", "ARABIC", "ARTS", "CHINA", "CLAS", "CMW", "COMMST", 
+      "CROAT", "DAC", "DUTCH", "EASIA", "ENGL", "FINE", "FR", "GER", "GRK", "HIST", 
+      "HUMSC", "ITAL", "ITALST", "JAPAN", "JS", "KOREA", "LAT", "MEDVL", "MOHAWK", 
+      "MUSIC", "PHIL", "PORT", "REES", "RS", "RUSS", "SI", "SPAN", "SPCOM", "THPERF", "VCULT"
     ],
     "social_sciences": [
-      "AFM", "ANTH", "BET", "BUS", "COMM", "COMMST", "ECON", 
-      "ENBUS", "ENVS", "ERS", "GEOG", "GERON", "GSJ", "HEALTH", 
-      "HRM", "HUMSC", "INDENT", "INDEV", "INDG", "INTST", "KIN", 
-      "LS", "MSCI", "PACS", "PHIL", "PLAN", "PSCI", "PSYCH", 
-      "REC", "REES", "SDS", "SMF", "SOC", "SOCWK", "SPCOM", "STV", "WS"
+      "AFM", "ANTH", "APPLS", "ARBUS", "BET", "BUS", "COMM", "ECON", "ENBUS", "GEOG", "GSJ",
+      "HRM", "INDENT", "INDEV", "INDG", "INTST", "LS", "MSCI", "PACS", "PSCI", "PSYCH", "REC",
+      "SDS", "SMF", "SOC", "SOCWK", "STV", "WS"
     ],
     "pure_sciences": [
       "BIOL", "CHEM", "EARTH", "PHYS", "SCI"
     ],
     "applied_sciences": [
-      "BIOL", "CHEM", "EARTH", "ENVS", "ERS", "HEALTH", "KIN", "MNS", "PHYS", "PLAN", "SCI"
+      "BIOL", "CHEM", "EARTH", "ENVS", "ERS", "GERON", "HEALTH", "KIN", "MNS", "PHYS", "PLAN", "SCI"
+    ],
+    "excluded_subjects": [
+      "ACTSC", "AMATH", "ARCH", "AVIA", "BASE", "BME", "CDNST", "CI", "CIVE", "CM", "CO", "CS",
+      "ECE", "EFAS", "EMLS", "ENVE", "GBDA", "GENE", "GEOE", "MATBUS", "MATH", "ME", "MTE", "MTHEL",
+      "NE", "PMATH", "SE", "STAT", "SYDE", "UNIV"
     ]
 }

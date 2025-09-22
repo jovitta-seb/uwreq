@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "scrape:one": "node scripts/scraper/scrape-one.js",
     "scrape:index": "node scripts/scraper/scrape-index.js",
-    "scrape:all": "node scripts/scraper/scrape-all.js"
+    "scrape:all": "node scripts/scraper/scrape-all.js",
+    "scrape:report": "node scripts/scraper/summarize-log.js"
   },
   "repository": {
     "type": "git",

@@ -268,10 +268,10 @@
       <div class="meta mb-3">
         <p>The <strong>Breadth Requirement</strong> ensures coverage across four areas:</p>
         <ul>
-          <li>Humanities — <%= requirements.categories.humanities.met ? "Met" : "In Progress" %> (<%= requirements.categories.humanities.taken.length %>/<%= requirements.categories.humanities.needed %>)</li>
-          <li>Social Sciences — <%= requirements.categories.social_sciences.met ? "Met" : "In Progress" %> (<%= requirements.categories.social_sciences.taken.length %>/<%= requirements.categories.social_sciences.needed %>)</li>
-          <li>Pure Sciences — <%= requirements.categories.pure_sciences.met ? "Met" : "In Progress" %> (<%= requirements.categories.pure_sciences.taken.length %>/<%= requirements.categories.pure_sciences.needed %>)</li>
-          <li>Applied Sciences — <%= requirements.categories.applied_sciences.met ? "Met" : "In Progress" %> (<%= requirements.categories.applied_sciences.taken.length %>/<%= requirements.categories.applied_sciences.needed %>)</li>
+          <li>Humanities (<%= requirements.categories.humanities.units %> unit) — <%= requirements.categories.humanities.met ? "Met" : "In Progress" %> </li>
+          <li>Social Sciences (<%= requirements.categories.social_sciences.units %> unit) — <%= requirements.categories.social_sciences.met ? "Met" : "In Progress" %> </li>
+          <li>Pure Sciences (<%= requirements.categories.pure_sciences.units %> units) — <%= requirements.categories.pure_sciences.met ? "Met" : "In Progress" %> </li>
+          <li>Applied Sciences (<%= requirements.categories.applied_sciences.units %> units) — <%= requirements.categories.applied_sciences.met ? "Met" : "In Progress" %> </li>
         </ul>
       </div>
 
@@ -284,7 +284,6 @@
           </span>
           <div class="meta">
             Progress: <%= info.taken.length %>/<%= info.needed %><br/>
-            Remaining: <%= info.remaining %><br/>
             Taken: <%= info.taken.join(", ") || "None" %>
           </div>
         </div>

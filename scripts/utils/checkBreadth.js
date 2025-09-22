@@ -85,10 +85,10 @@ export function checkBreadth(studentCourses, { debug = false } = {}) {
 
   // Track usage by category
   const categories = {
-    humanities: { needed: 2, taken: [], met: false },
-    social_sciences: { needed: 2, taken: [], met: false },
-    pure_sciences: { needed: 1, taken: [], met: false },
-    applied_sciences: { needed: 1, taken: [], met: false },
+    humanities: { needed: 2, units: 1.0, taken: [], met: false },
+    social_sciences: { needed: 2, units: 1.0, taken: [], met: false },
+    pure_sciences: { needed: 1, units: 0.5, taken: [], met: false },
+    applied_sciences: { needed: 1, units: 0.5, taken: [], met: false },
   };
 
   // Special overlap handling for PURE vs APPLIED

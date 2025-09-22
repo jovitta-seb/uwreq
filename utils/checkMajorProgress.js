@@ -135,14 +135,8 @@ function createDescription(requirement) {
       }
     }
     return desc;
-  } else if (requirement.type === "list1_required") {
-    return requirement.description || "Complete 2 courses from list 1";
-  } else if (requirement.type === "list1+list2_required") {
-    return (
-      requirement.description ||
-      "Complete one course from list 1 and one from list 2"
-    );
   }
+  
   const courseCodes = Array.isArray(requirement.courses)
     ? requirement.courses.map((c) => c.code).join(",")
     : "";

@@ -57,12 +57,51 @@ function checkRange(requirement, excludedCourses) {
     });
   }
 
-  // Handle level ranges like "CS6" or "CS7"
+  // Handle level ranges like "AFM3", "AFM4", "CS6" etc.
+  // Expect format like "AFM3" meaning AFM 300-399, "AFM4" => AFM 400-499
   if (Array.isArray(requirement.level_ranges)) {
     requirement.level_ranges.forEach((prefix) => {
-      const matches = courseData.filter((c) =>
-        c.code.toUpperCase().startsWith(prefix.toUpperCase())
-      );
+      // Split into subject letters and level digit(s)
+      const subjectMatch = prefix.match(/^([A-Za-z]+)(\d+)$/);
+      if (!subjectMatch) return;
+      const subject = subjectMatch[1].toUpperCase(); // e.g., AFM
+      const levelDigit = parseInt(subjectMatch[2], 10); // e.g., 3
+
+      // numeric range: levelDigit*100 .. (levelDigit+1)*100 - 1
+      const startNum = levelDigit * 100;
+      const endNum = (levelDigit + 1) * 100 - 1;
+
+      const matches = courseData.filter((c) => {
+        const code = c.code.toUpperCase();
+        // exact subject prefix
+        if (!code.startsWith(subject)) return false;
+        // extract numeric part and compare range
+        const numMatch = code.match(/\d+/);
+        if (!numMatch) return false;
+        const num = parseInt(numMatch[0], 10);
+        return num >= startNum && num <= endNum;
+      });
+
+      valid_courses.push(...matches);
+    });
+  }
+
+  // Handle pattern matches like "AFM3" (subject + level)
+  if (Array.isArray(requirement.patterns)) {
+    requirement.patterns.forEach((pattern) => {
+      const match = pattern.match(/^([A-Za-z]+)(\d)$/);
+      if (!match) return;
+      const subject = match[1].toUpperCase();
+      const level = parseInt(match[2]);
+      const start = level * 100;
+      const end = (level + 1) * 100 - 1;
+      const matches = courseData.filter((c) => {
+        if (!c.code.startsWith(subject)) return false;
+        const numMatch = c.code.match(/\d+/);
+        if (!numMatch) return false;
+        const num = parseInt(numMatch[0]);
+        return num >= start && num <= end;
+      });
       valid_courses.push(...matches);
     });
   }
@@ -72,6 +111,15 @@ function checkRange(requirement, excludedCourses) {
     requirement.category_ranges.forEach((item) => {
       const matches = courseData.filter((c) => subjectMatch(c.code, item));
       valid_courses.push(...matches);
+    });
+  }
+
+  // Explicit listed courses (like CO487, CS251/E)
+  if (Array.isArray(requirement.courses)) {
+    requirement.courses.forEach((c) => {
+      if (!excludedCourses.includes(c.code.toUpperCase())) {
+        valid_courses.push(c);
+      }
     });
   }
 
@@ -120,6 +168,9 @@ function checkCommunicationReq(requirement, userCourses) {
 
 // generate descriptions for requirements
 function createDescription(requirement) {
+  if (requirement.description) {
+    return requirement.description;
+  }
   if (requirement.type === "one_group_required") {
     // Use the parent description if it exists
     let desc =
@@ -136,16 +187,21 @@ function createDescription(requirement) {
     }
     return desc;
   }
-  
+
   const courseCodes = Array.isArray(requirement.courses)
-    ? requirement.courses.map((c) => c.code).join(",")
+    ? requirement.courses.map((c) => c.code).join(", ")
     : "";
   if (requirement.type === "all_required") {
     return "Complete all of " + courseCodes;
   } else if (requirement.type === "one_required") {
     return "Complete one of " + courseCodes;
   } else if (requirement.type === "n_required") {
-    return `Complete ${requirement.count} of ` + courseCodes;
+    const reqText = requirement.required
+      ? ` and ${requirement.required.join(
+          ", "
+        )} if not taken to fulfil a requirement previously`
+      : "";
+    return `Complete ${requirement.count} of ` + courseCodes + reqText;
   }
 }
 
@@ -175,6 +231,39 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
     let valid_courses = [];
     if (type === "range_required") {
       valid_courses = checkRange(requirement, excludedCourses);
+    } else if (type === "n_required") {
+      // Start with explicitly listed courses (if any)
+      valid_courses = [];
+
+      if (Array.isArray(requirement.courses)) {
+        requirement.courses.forEach((c) => {
+          if (!excludedCourses.includes(c.code.toUpperCase())) {
+            valid_courses.push(c);
+          }
+        });
+      }
+
+      // Then add pattern/range matches (e.g., AFM3xx)
+      const patternMatches = checkRange(requirement, excludedCourses);
+      patternMatches.forEach((course) => {
+        if (!valid_courses.some((c) => c.code === course.code)) {
+          valid_courses.push(course);
+        }
+      });
+
+      // Finally, ensure "required" field courses (if any) are also included
+      if (Array.isArray(requirement.required)) {
+        requirement.required.forEach((reqCode) => {
+          const match = courseData.find(
+            (c) => c.code.toUpperCase() === reqCode.toUpperCase()
+          );
+          if (match && !excludedCourses.includes(match.code.toUpperCase())) {
+            if (!valid_courses.some((c) => c.code === match.code)) {
+              valid_courses.push(match);
+            }
+          }
+        });
+      }
     } else if (Array.isArray(requirement.courses)) {
       valid_courses = requirement.courses.filter(
         (c) => !excludedCourses.includes(c.code.toUpperCase())
@@ -193,7 +282,9 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
     );
 
     // Push just the code string into all_courses_taken
-    taken.forEach((item) => all_courses_taken.push(item.code.toUpperCase()));
+    // taken.forEach((item) => all_courses_taken.push(item.code.toUpperCase()));
+    const used = taken.slice(0, requirement.count ?? taken.length);
+    used.forEach((item) => all_courses_taken.push(item.code.toUpperCase()));
 
     let met = false;
     switch (type) {
@@ -207,7 +298,14 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
         met = taken.length >= requirement.count;
         break;
       case "n_required":
-        met = taken.length >= requirement.count;
+        if (Array.isArray(requirement.required)) {
+          const requiredTaken = requirement.required.every((reqCode) =>
+            taken.some((c) => c.code.toUpperCase() === reqCode.toUpperCase())
+          );
+          met = requiredTaken && taken.length >= requirement.count;
+        } else {
+          met = taken.length >= requirement.count;
+        }
         break;
       case "one_group_required": {
         // Evaluate each group
@@ -236,8 +334,19 @@ function checkReq(value, userCourses, all_courses_taken, excludedCourses) {
           return true;
         });
 
-        // Met if ANY group is fully met
-        met = groupResults.some((groupArr) => groupArr.every((r) => r.met));
+        // Met if ANY subgroup is *fully satisfied* (i.e., its own met flag is true
+        // AND it has no outstanding required courses remaining)
+        met = groupResults.some((groupArr) =>
+          groupArr.some((r) => {
+            // require the subgroup to have met === true and, for safety,
+            // if courses_remaining is present, ensure it's empty
+            if (!r.met) return false;
+            if (Array.isArray(r.courses_remaining)) {
+              return r.courses_remaining.length === 0;
+            }
+            return true;
+          })
+        );
 
         return {
           description,
@@ -276,13 +385,9 @@ function checkBreadthReq(sourcePath, userCourses, { debug = false } = {}) {
     satisfied: result.ok,
     description: result.description,
     categories: result.categories,
-    note:
-      "Overlap is only allowed between Pure and Applied Sciences. Comm List I exclusions are not counted.",
+    note: "Overlap is only allowed between Pure and Applied Sciences. Comm List I exclusions are not counted.",
   };
 }
-
-
-
 
 // depth requirement check (patched with debug + exclusion note)
 function checkDepthReq(sourcePath, userCourses, { debug = false } = {}) {
@@ -293,8 +398,7 @@ function checkDepthReq(sourcePath, userCourses, { debug = false } = {}) {
     return {
       description: sourceData.options.map((o) => o.description).join(" OR "),
       satisfied: false,
-      note:
-        "Depth not satisfied. Either insufficient courses/chain length, or all selected courses are in excluded subjects (e.g., CS, MATH, STAT, etc.).",
+      note: "Depth not satisfied. Either insufficient courses/chain length, or all selected courses are in excluded subjects (e.g., CS, MATH, STAT, etc.).",
       examples: sourceData.examples,
     };
   }

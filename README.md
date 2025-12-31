@@ -13,13 +13,17 @@ uwreq/
 │       ├── BCS Computer Science.json
 │       ├── BCS Data Science.json
 │       ├── BMath Computer Science.json
+│       ├── BCFM Computing and Financial Management.json
 │       ├── breadth.json
 │       └── depth.json
 ├── public/
 │   └── styles/
 │       └── main.css
+├── routes/
+│   └──uwflow.js
 ├── utils/
-│   └── checkMajorProgress.js
+│       ├── checkMajorProgress.js
+│       └── uwflow.js
 ├── views/
 │   ├── layout.ejs
 │   ├── homepage.ejs
@@ -42,10 +46,14 @@ npm install
 nodemon index.js
 
 # Data Handling
-This project uses open, public course data from the University of Waterloo's undergraduate calender
+This project uses open, public course data from the University of Waterloo's undergraduate calendar
 (https://uwaterloo.ca/academic-calendar/undergraduate-studies/catalog#/courses)
 
-If the calender is updated, make necessary changes to the csv and regenerate json by running csv-to-json.js
+If the calendar is updated, make necessary changes to the csv and regenerate JSON by running csv-to-json.js
+
+# UWFlow integration
+Course sentiment data taken from UWFlow
+https://github.com/UWFlow/uwflow/releases/tag/v1.0.0 
 
 # Degree Requirements System
 Each program is represented as an object containing:

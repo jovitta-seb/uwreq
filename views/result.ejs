@@ -43,13 +43,11 @@
         margin-bottom: 1rem;
       }
 
-      /* Make the program name smaller and lighter */
       .program-name {
-        text-align: center; /* center it under the H2 */
-        font-size: 1.5rem; /* smaller text */
-        opacity: 0.7; /* lighter look */
-        margin-bottom: 1.5rem; /* space before the sections start */
-        text-align: center;
+        text-align: center; 
+        font-size: 1.5rem; 
+        opacity: 0.7; 
+        margin-bottom: 1.5rem; 
       }
 
       .results-section {
@@ -197,18 +195,43 @@
                   <%= req.met ? "Met" : "Not Met" %>
                 </span>
                 <div class="meta">
-                  Taken: <%= req.courses_taken.map(c => c.code).join(", ") || "None" %><br />
+                  Taken: 
+                   <% if (req.courses_taken.length) { %>
+                    <% req.courses_taken.forEach((c, i) => { %>
+                      <span class="course-code"
+                      data-code="<%= c.code %>"
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Loading UWFlow data...">
+                      <%= c.code %>
+                    </span><%= i < req.courses_taken.length - 1 ? ", " : "" %>
+                    <% }) %>
+                    <% } else { %>
+                      None
+                      <% } %>
+                      <br />
                   <% if (req.type !== 'one_required' && req.type !== 'all_required') { %>
-                    Options: <%= req.courses_remaining.map(c => c.code).join(", ") || "None" %>
-                  <% } %>
+                    Options:
+                    <% if (req.courses_remaining.length) { %>
+                      <% req.courses_remaining.forEach((c, i) => { %>
+                        <span class="course-code"
+                        data-code="<%= c.code %>"
+                        data-bs-toggle="tooltip"
+                        data-bs-title="Loading UWFlow data...">
+                        <%= c.code %>
+                      </span><%= i < req.courses_remaining.length - 1 ? ", " : "" %>
+                      <% }) %>
+                      <% } else { %>
+                        None
+                        <% } %>
+                        <% } %>
+                      </div>
+                    </div>
+                    <% }) %>
+                  </div>
                 </div>
-              </div>
-            <% }) %>
-          </div>
-        </div>
 
+      <!-- Special rendering for new communication_requirement object -->
       <% } else if (section === "communication_requirement") { %>
-        <!-- Special rendering for new communication_requirement object -->
         <div class="results-section mb-3">
           <button
             class="btn btn-outline-light w-100 text-start"
@@ -225,8 +248,33 @@
               <div class="requirement-item">
                 <strong><%= list.description %></strong>
                 <div class="meta">
-                  Taken: <%= list.courses_taken.map(c => c.code).join(", ") || "None" %><br />
-                  Options available: <%= list.courses_remaining.map(c => c.code).join(", ") || "None" %>
+                  Taken: 
+                  <% if (list.courses_taken.length) { %>
+                    <% list.courses_taken.forEach((c, i) => { %>
+                      <span class="course-code"
+                      data-code="<%= c.code %>"
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Loading UWFlow data...">
+                      <%= c.code %>
+                    </span><%= i < list.courses_taken.length - 1 ? ", " : "" %>
+                    <% }) %>
+                    <% } else { %>
+                      None
+                      <% } %>
+                  <br />
+                  Options available:
+                  <% if (list.courses_remaining.length) { %>
+                    <% list.courses_remaining.forEach((c, i) => { %>
+                      <span class="course-code"
+                      data-code="<%= c.code %>"
+                      data-bs-toggle="tooltip"
+                      data-bs-title="Loading UWFlow data...">
+                      <%= c.code %>
+                    </span><%= i < list.courses_remaining.length - 1 ? ", " : "" %>
+                    <% }) %>
+                    <% } else { %>
+                      None
+                      <% } %>
                 </div>
               </div>
             <% }) %>
@@ -242,18 +290,19 @@
             <% }) %>
           </div>
         </div>
-      <% } else if (section === "breadth_requirement") { %>
-  <!-- Breadth Requirement -->
-  <div class="results-section mb-3">
-    <button
-      class="btn btn-outline-light w-100 text-start"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#section-<%= idx %>"
-      aria-expanded="false"
-      aria-controls="section-<%= idx %>">
-      Breadth Requirement
-    </button>
+
+      <!-- Breadth Requirement -->
+       <% } else if (section === "breadth_requirement") { %>
+        <div class="results-section mb-3">
+          <button
+            class="btn btn-outline-light w-100 text-start"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#section-<%= idx %>"
+            aria-expanded="false"
+            aria-controls="section-<%= idx %>">
+            Breadth Requirement
+          </button>
 
     <div class="collapse" id="section-<%= idx %>">
       <!-- Status at the top -->
@@ -284,15 +333,27 @@
           </span>
           <div class="meta">
             Progress: <%= info.taken.length %>/<%= info.needed %><br/>
-            Taken: <%= info.taken.join(", ") || "None" %>
+            Taken: 
+            <% if (info.taken.length) { %>
+              <% info.taken.forEach((c, i) => { %>
+                <span class="course-code"
+                data-code="<%= c.trim().replace(/\s+/g, '').toLowerCase(); %>"
+                data-bs-toggle="tooltip"
+                data-bs-title="Loading UWFlow data...">
+                <%= c %>
+              </span><%= i < info.taken.length - 1 ? ", " : "" %>
+              <% }) %>
+              <% } else { %>
+                None
+                <% } %>
           </div>
         </div>
       <% }) %>
     </div>
   </div>
   
+<!-- Depth Requirement -->
 <% } else if (section === "depth_requirement") { %>
-  <!-- Depth Requirement -->
   <div class="results-section mb-3">
     <button
       class="btn btn-outline-light w-100 text-start"
@@ -335,10 +396,7 @@
     </div>
   </div>
 <% } %>
-
-
-
-    <% }) %>
+<% }) %>
 
   </div>
 </main>
@@ -400,5 +458,47 @@
 
       new bootstrap.Modal(document.getElementById('editCoursesModal'), {backdrop: false});
     </script>
+
+    <!-- UWFlow tooltips -->
+    <script>
+      const tooltipCache = new Map();
+
+      document.querySelectorAll(".course-code").forEach(el => {
+        const code = el.dataset.code;
+        const tooltip = new bootstrap.Tooltip(el, { html: true });
+
+        el.addEventListener("mouseenter", async () => {
+          if (tooltipCache.has(code)) return;
+
+          try {
+            const res = await fetch(`/api/uwflow/course/${code}`);
+            const data = await res.json();
+
+            if (data.error) {
+              tooltip.setContent({ ".tooltip-inner": "No UWFlow data" });
+              tooltip.show();
+              return;
+            }
+
+            tooltip.setContent({
+              ".tooltip-inner": `
+                <strong>${data.name}</strong><br>
+                👍 Liked: ${Math.round(data.liked * 100)}%<br>
+                🧠 Useful: ${Math.round(data.useful * 100)}%<br>
+                😌 Easy: ${Math.round(data.easy * 100)}%<br>
+                👥 Ratings: ${data.filledCount}
+              `
+            });
+
+            tooltip.show();
+            tooltipCache.set(code, true);
+          } catch {
+            tooltip.setContent({ ".tooltip-inner": "Failed to load UWFlow data" });
+            tooltip.show();
+          }
+        });
+      });
+    </script>
+
   </body>
 </html>

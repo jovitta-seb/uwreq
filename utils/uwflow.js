@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 const UWFLOW_GRAPHQL = "https://uwflow.com/graphql";
 
 function normalizeCode(code) {
-  return code.toLowerCase().replace(/\s+/g, "");
+  return code.toLowerCase().replace(/\s+/g, "");   //UWFlow stores course code in lowercase
 }
 
 export async function getCourseData(rawCode) {

@@ -99,6 +99,18 @@
         background-color: rgba(255, 255, 255, 0.15);
       }
 
+      .course-code {
+        color: #ddd;
+        text-decoration: none;
+        transition: color 0.15s ease, text-decoration-color 0.15s ease;
+      }
+
+      .course-code:hover {
+        color: #fff;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
       /* ======================== */
       /* Header Styles            */
       /* ======================== */
@@ -167,7 +179,6 @@
     <% Object.entries(progress).forEach(([section, requirements], idx) => { %>
 
       <% if (Array.isArray(requirements)) { %>
-        <!-- Normal requirement arrays -->
         <div class="results-section mb-3">
           <button
             class="btn btn-outline-light w-100 text-start"
@@ -198,12 +209,13 @@
                   Taken: 
                    <% if (req.courses_taken.length) { %>
                     <% req.courses_taken.forEach((c, i) => { %>
-                      <span class="course-code"
+                      <a href="https://uwflow.com/course/<%= c.code.toLowerCase() %>" target="_blank" rel="noopener"
+                      class="course-code"
                       data-code="<%= c.code %>"
                       data-bs-toggle="tooltip"
                       data-bs-title="Loading UWFlow data...">
                       <%= c.code %>
-                    </span><%= i < req.courses_taken.length - 1 ? ", " : "" %>
+                    </a><%= i < req.courses_taken.length - 1 ? ", " : "" %>
                     <% }) %>
                     <% } else { %>
                       None
@@ -213,12 +225,13 @@
                     Options:
                     <% if (req.courses_remaining.length) { %>
                       <% req.courses_remaining.forEach((c, i) => { %>
-                        <span class="course-code"
+                        <a href="https://uwflow.com/course/<%= c.code.toLowerCase() %>" target="_blank" rel="noopener"
+                        class="course-code"
                         data-code="<%= c.code %>"
                         data-bs-toggle="tooltip"
                         data-bs-title="Loading UWFlow data...">
                         <%= c.code %>
-                      </span><%= i < req.courses_remaining.length - 1 ? ", " : "" %>
+                        </a><%= i < req.courses_remaining.length - 1 ? ", " : "" %>
                       <% }) %>
                       <% } else { %>
                         None
@@ -251,12 +264,13 @@
                   Taken: 
                   <% if (list.courses_taken.length) { %>
                     <% list.courses_taken.forEach((c, i) => { %>
-                      <span class="course-code"
+                      <a href="https://uwflow.com/course/<%= c.code.toLowerCase() %>" target="_blank" rel="noopener"
+                      class="course-code"
                       data-code="<%= c.code %>"
                       data-bs-toggle="tooltip"
                       data-bs-title="Loading UWFlow data...">
                       <%= c.code %>
-                    </span><%= i < list.courses_taken.length - 1 ? ", " : "" %>
+                      </a><%= i < list.courses_taken.length - 1 ? ", " : "" %>
                     <% }) %>
                     <% } else { %>
                       None
@@ -265,12 +279,13 @@
                   Options available:
                   <% if (list.courses_remaining.length) { %>
                     <% list.courses_remaining.forEach((c, i) => { %>
-                      <span class="course-code"
+                      <a href="https://uwflow.com/course/<%= c.code.toLowerCase() %>" target="_blank" rel="noopener"
+                      class="course-code"
                       data-code="<%= c.code %>"
                       data-bs-toggle="tooltip"
                       data-bs-title="Loading UWFlow data...">
                       <%= c.code %>
-                    </span><%= i < list.courses_remaining.length - 1 ? ", " : "" %>
+                      </a><%= i < list.courses_remaining.length - 1 ? ", " : "" %>
                     <% }) %>
                     <% } else { %>
                       None
@@ -305,7 +320,6 @@
           </button>
 
     <div class="collapse" id="section-<%= idx %>">
-      <!-- Status at the top -->
       <div class="requirement-item">
         <strong>Status:</strong>
         <span class="badge <%= requirements.satisfied ? 'met' : 'not-met' %> ms-2">
@@ -313,7 +327,6 @@
         </span>
       </div>
 
-      <!-- Rewritten description -->
       <div class="meta mb-3">
         <p>The <strong>Breadth Requirement</strong> ensures coverage across four areas:</p>
         <ul>
@@ -324,7 +337,6 @@
         </ul>
       </div>
 
-      <!-- Individual category breakdowns -->
       <% Object.entries(requirements.categories).forEach(([cat, info]) => { %>
         <div class="requirement-item">
           <strong><%= cat.charAt(0).toUpperCase() + cat.slice(1).replace("_", " ") %></strong>
@@ -336,12 +348,13 @@
             Taken: 
             <% if (info.taken.length) { %>
               <% info.taken.forEach((c, i) => { %>
-                <span class="course-code"
+                <a href="https://uwflow.com/course/<%= c.trim().replace(/\s+/g, '').toLowerCase(); %>" target="_blank" rel="noopener"
+                class="course-code"
                 data-code="<%= c.trim().replace(/\s+/g, '').toLowerCase(); %>"
                 data-bs-toggle="tooltip"
                 data-bs-title="Loading UWFlow data...">
                 <%= c %>
-              </span><%= i < info.taken.length - 1 ? ", " : "" %>
+                </a><%= i < info.taken.length - 1 ? ", " : "" %>
               <% }) %>
               <% } else { %>
                 None
@@ -401,7 +414,6 @@
   </div>
 </main>
 
-<!-- Button to open modal -->
 <button class="btn btn-outline-light" 
         data-bs-toggle="modal" 
         data-bs-target="#editCoursesModal" style="width: 20%; align-self: center; text-align: center; background-color: rgba(0, 0, 0, 0.616);">
@@ -461,44 +473,67 @@
 
     <!-- UWFlow tooltips -->
     <script>
-      const tooltipCache = new Map();
+  const tooltipCache = new Map(); // code -> Promise(data)
+  let activeTooltip = null;       // currently visible tooltip instance
 
-      document.querySelectorAll(".course-code").forEach(el => {
-        const code = el.dataset.code;
-        const tooltip = new bootstrap.Tooltip(el, { html: true });
+  document.querySelectorAll(".course-code").forEach(el => {
+    const code = el.dataset.code;
+    const tooltip = new bootstrap.Tooltip(el, { html: true, trigger: "hover" });
 
-        el.addEventListener("mouseenter", async () => {
-          if (tooltipCache.has(code)) return;
+    el.addEventListener("mouseenter", async () => {
+      // Hide any other tooltip
+      if (activeTooltip && activeTooltip !== tooltip) {
+        activeTooltip.hide();
+      }
+      activeTooltip = tooltip;
 
-          try {
-            const res = await fetch(`/api/uwflow/course/${code}`);
-            const data = await res.json();
-
-            if (data.error) {
-              tooltip.setContent({ ".tooltip-inner": "No UWFlow data" });
-              tooltip.show();
-              return;
-            }
-
-            tooltip.setContent({
-              ".tooltip-inner": `
-                <strong>${data.name}</strong><br>
-                👍 Liked: ${Math.round(data.liked * 100)}%<br>
-                🧠 Useful: ${Math.round(data.useful * 100)}%<br>
-                😌 Easy: ${Math.round(data.easy * 100)}%<br>
-                👥 Ratings: ${data.filledCount}
-              `
-            });
-
-            tooltip.show();
-            tooltipCache.set(code, true);
-          } catch {
-            tooltip.setContent({ ".tooltip-inner": "Failed to load UWFlow data" });
-            tooltip.show();
-          }
-        });
+      // Show immediately with loading text
+      tooltip.setContent({
+        ".tooltip-inner": "Loading UWFlow data..."
       });
-    </script>
+      tooltip.show();
+
+      // Cache the fetch PROMISE (not a boolean)
+      if (!tooltipCache.has(code)) {
+        tooltipCache.set(
+          code,
+          fetch(`/api/uwflow/course/${code}`)
+            .then(res => res.json())
+            .catch(() => ({ error: true }))
+        );
+      }
+
+      const data = await tooltipCache.get(code);
+
+      // If user left before data arrived, do nothing
+      if (activeTooltip !== tooltip) return;
+
+      if (data.error) {
+        tooltip.setContent({
+          ".tooltip-inner": "No data available"
+        });
+        return;
+      }
+
+      tooltip.setContent({
+        ".tooltip-inner": `
+          <strong>${data.name}</strong><br>
+          👍 Liked: ${Math.round(data.liked * 100)}%<br>
+          🧠 Useful: ${Math.round(data.useful * 100)}%<br>
+          😌 Easy: ${Math.round(data.easy * 100)}%<br>
+          👥 Ratings: ${data.filledCount}
+        `
+      });
+    });
+
+    el.addEventListener("mouseleave", () => {
+      tooltip.hide();
+      if (activeTooltip === tooltip) {
+        activeTooltip = null;
+      }
+    });
+  });
+</script>
 
   </body>
 </html>

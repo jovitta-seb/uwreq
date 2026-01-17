@@ -1,6 +1,9 @@
 # OnTrack
 Course requirement tracker to make sure you're on track to graduate :)
 
+<img width="1427" height="749" alt="Screenshot 2026-01-17 at 5 12 08 PM" src="https://github.com/user-attachments/assets/06e40d1d-6104-4820-bf40-836d518da8a9" />
+<img width="1427" height="749" alt="Screenshot 2026-01-17 at 5 29 27 PM (1)" src="https://github.com/user-attachments/assets/850950f5-2337-4e9a-b9db-9482c67073b1" />
+
 ## Project Structure
 ```
 uwreq/

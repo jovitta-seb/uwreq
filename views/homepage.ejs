@@ -1,35 +1,142 @@
-<% if (typeof error !== 'undefined' && error) { %>
-  <div class="alert alert-danger"><%= error %></div>
-<% } %>
+<style>
+  .homepage-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.5rem;
+    letter-spacing: -0.5px;
+  }
 
-<h1>Welcome to OnTrack</h1>
-<p class="lead py-3 px-4">
-  Plan your academic journey with ease. Make sure you're on track to graduate on
-  time. Choose your major and enter your courses to get started.
-</p>
-<form action="/submit" method="POST">
-  <div class="mb-3 mx-auto" style="max-width: 70%">
-    <label for="major" class="form-label">Select Your Major:</label>
-    <select class="form-select" id="major" name="major">
-      <option value="BCS Computer Science">BCS Computer Science</option>
-      <option value="BMath Computer Science">BMath Computer Science</option>
-      <option value="BCFM Computing and Financial Management">BCFM Computing and Financial Management</option>
-      <option value="BCS Data Science">BCS Data Science</option>
-    </select>
-    <br />
-    <label for="courses" class="form-label">Enter Your Courses:</label>
-    <textarea
-      class="form-control"
-      id="courses"
-      name="courses"
-      rows="3"
-      placeholder="Enter your comma-seperated courses here (ex: CS135, MATH137, CS136L etc)"
-    ></textarea>
-  </div>
+  .homepage-title .highlight {
+    color: #ffd700;
+  }
+
+  .form-container {
+    max-width: 90%;
+    margin: 1.5rem 2rem;
+  }
+
+  .form-group-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+  }
+
+  .form-select {
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
+    color: #ffffff;
+    padding: 0.6rem;
+  }
+
+  .form-select:focus {
+    background-color: #222222;
+    border-color: #ffd700;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.15);
+  }
+
+  .form-select option {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .form-control {
+    background-color: #1a1a1a;
+    border: 1px solid #333333;
+    color: #ffffff;
+  }
+
+  .form-control::placeholder {
+    color: #808080;
+  }
+
+  .form-control:focus {
+    background-color: #222222;
+    border-color: #ffd700;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.15);
+  }
+
+  .btn-get-started {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #ffffff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn-get-started:hover {
+    background-color: #ffd700;
+    border-color: #ffd700;
+    color: #565353;
+  }
+
+  .alert-danger {
+    background-color: #2a1a1a;
+    border: 1px solid #664444;
+    color: #ff9999;
+  }
+
+  .welcome-box {
+    padding-top: 3rem;
+  }
+</style>
+
+<% if (typeof error !== 'undefined' && error) { %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong>Error:</strong> <%= error %>
   <button
-    type="submit"
-    class="btn btn-lg btn-light fw-bold border-white bg-white"
-  >
-    Get Started
-  </button>
-</form>
+    type="button"
+    class="btn-close btn-close-white"
+    data-bs-dismiss="alert"
+  ></button>
+</div>
+<% } %>
+<div class="welcome-box">
+  <h1 class="homepage-title">
+    Welcome to <span class="highlight">OnTrack</span>
+  </h1>
+  <p class="lead px-4">
+    Plan your academic journey with ease. Make sure you're on track to graduate
+    on time.
+  </p>
+
+  <form action="/submit" method="POST" class="form-container">
+    <div class="form-group-wrapper">
+      <label for="major" class="form-label">Select Your Major:</label>
+      <select class="form-select" id="major" name="major" required>
+        <option value="">-- Choose a program --</option>
+        <option value="BCS Computer Science">BCS Computer Science</option>
+        <option value="BMath Computer Science">BMath Computer Science</option>
+        <option value="BCFM Computing and Financial Management">
+          BCFM Computing and Financial Management
+        </option>
+        <option value="BCS Data Science">BCS Data Science</option>
+      </select>
+    </div>
+
+    <div class="form-group-wrapper">
+      <label for="courses" class="form-label">Enter Your Courses:</label>
+      <textarea
+        class="form-control"
+        id="courses"
+        name="courses"
+        rows="4"
+        placeholder="Enter comma-separated courses (ex: CS135, MATH137, CS136L, etc)"
+        required
+      ></textarea>
+    </div>
+
+    <div style="text-align: center">
+      <button type="submit" class="btn btn-lg btn-get-started fw-bold">
+        Get Started
+      </button>
+    </div>
+  </form>
+</div>

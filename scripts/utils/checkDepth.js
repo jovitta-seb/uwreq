@@ -60,8 +60,9 @@ function readJSONSafe(p) {
 
 function normalizeCode(code) {
   if (!code) return "";
-  const m = code.toUpperCase().match(/^([A-Z]{2,5})\s*0*([0-9]{2,3}[A-Z]?)$/);
-  if (!m) return code.toUpperCase().trim();
+  const s = code.toUpperCase().trim();
+  const m = s.match(/^([A-Z]{2,10})\s*0*([0-9]{2,3}[A-Z]{0,2})$/);
+  if (!m) return s;
   return `${m[1]} ${m[2]}`;
 }
 function getSubject(code) {
